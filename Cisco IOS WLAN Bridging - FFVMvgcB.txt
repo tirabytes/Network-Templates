@@ -1,0 +1,75 @@
+Old Method
+interface Dot11Radio0
+ no ip address
+!
+ encryption mode ciphers tkip
+!
+ ssid [SSID]
+    authentication open
+    authentication key-management wpa
+    guest-mode
+    wpa-psk ascii [PASSWORD]
+!
+ speed basic-1.0 basic-2.0 basic-5.5 basic-6.0 basic-9.0 basic-11.0 basic-12.0 basic-18.0 basic-24.0 basic-36.0 basic-48.0 basic-54.0
+ no cdp enable
+ bridge-group 1
+ bridge-group 1 subscriber-loop-control
+ bridge-group 1 spanning-disabled
+ bridge-group 1 block-unknown-source
+ no bridge-group 1 source-learning
+ no bridge-group 1 unicast-flooding
+!
+ bridge irb
+!
+ interface Vlan1
+ no ip address
+ bridge-group 1
+ bridge-group 1 spanning-disabled
+!
+!
+ interface bvi1
+ ip address [IP ADDRESS] [SUBNET MASK]
+ no ip directed-broadcast
+ exit
+!
+bridge 1 route ip
+
+---------------------------------
+New Method
+
+dot11 ssid [SSID]
+    authentication open
+    authentication key-management wpa
+    guest-mode
+    wpa-psk ascii [PASSWORD]
+!
+interface Dot11Radio0
+ no ip address
+!
+ encryption mode ciphers tkip
+!
+ ssid [SSID]
+!
+ speed basic-1.0 basic-2.0 basic-5.5 basic-6.0 basic-9.0 basic-11.0 basic-12.0 basic-18.0 basic-24.0 basic-36.0 basic-48.0 basic-54.0
+ no cdp enable
+ bridge-group 1
+ bridge-group 1 subscriber-loop-control
+ bridge-group 1 spanning-disabled
+ bridge-group 1 block-unknown-source
+ no bridge-group 1 source-learning
+ no bridge-group 1 unicast-flooding
+!
+ bridge irb
+!
+ interface Vlan1
+ no ip address
+ bridge-group 1
+ bridge-group 1 spanning-disabled
+!
+!
+ interface bvi1
+ ip address [IP ADDRESS] [SUBNET MASK]
+ no ip directed-broadcast
+ exit
+!
+bridge 1 route ip

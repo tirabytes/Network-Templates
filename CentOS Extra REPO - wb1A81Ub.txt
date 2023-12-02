@@ -1,0 +1,40 @@
+How to install RHEL EPEL repository on Centos 5.x or 6.x
+The following article will article CentOS 5.x-based or Centos 6.x-based  system using Fedora Epel repos, and the third party remi package repos. These package repositories are not officially supported by CentOS, but they provide much more current versions of popular applications like PHP or MYSQL.
+
+Install the extra repositories
+
+The first step requires downloading some RPM files that contain the additional YUM repository definitions.
+
+Centos 5.x
+
+wget http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+sudo rpm -Uvh remi-release-5*.rpm epel-release-5*.rpm
+Centos 6.x
+
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+sudo rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
+Once installed you should see some additional repo definitions under the /etc/yum.repos.d directory.
+
+$ ls -1 /etc/yum.repos.d/epel* /etc/yum.repos.d/remi.repo
+/etc/yum.repos.d/epel.repo
+/etc/yum.repos.d/epel-testing.repo
+/etc/yum.repos.d/remi.repo
+Enable the remi repository
+
+The remi repository provides a variety of up-to-date packages that are useful or are a requirement for many popular web-based services.  That means it generally is not a bad idea to enable the remi repositories by default.
+
+First, open the /etc/yum.repos.d/remi.repo repository file using a text editor of your choice:
+
+sudo vim /etc/yum.repos.d/remi.repo
+Edit the [remi] portion of the file so that the enabled option is set to 1.  This will enable the remi repository.
+
+name=Les RPM de remi pour Enterprise Linux $releasever - $basearch
+#baseurl=http://rpms.famillecollet.com/enterprise/$releasever/remi/$basearch/
+mirrorlist=http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+failovermethod=priority
+You will now have a larger array of yum repositories to install from.

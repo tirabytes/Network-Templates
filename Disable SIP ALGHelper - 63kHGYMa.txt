@@ -1,0 +1,5 @@
+Cisco IOS:
+no ip nat service sip udp port 5060
+
+Juniper SRX
+set security alg sip disable

@@ -1,0 +1,14 @@
+Console
+
+While booting up press "CTRL + BREAK" keys
+
+> confreg 0x142 
+> reset  
+
+Router will reboot
+
+Router# enable
+Router# show configuration
+
+To return to normal mode.
+Router# config-register 0x2102

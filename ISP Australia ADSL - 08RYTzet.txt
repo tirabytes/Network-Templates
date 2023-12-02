@@ -1,0 +1,5 @@
+VPI 8	
+VCI 35
+
+VC-MUX
+UBR w/o PCR

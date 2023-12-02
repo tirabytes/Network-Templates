@@ -1,0 +1,4 @@
+monitor session 1 source interface {interface}
+monitor session 1 destination interface {interface}
+
+sho monitor session 1

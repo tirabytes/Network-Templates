@@ -1,0 +1,28 @@
+                                                                                       
+         88                          88                                                      
+  ,d     ""                          88                          ,d                          
+  88                                 88                          88                          
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,  
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                    
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+
+How to check default SRX timeouts
+
+>start shell user root
+
+>vty fwdd
+
+>show usp app-def tcp/udp
+
+Results:
+
+tcp port=0, appl_name=junos-tcp-any, service type=0, alg id=0, timeout=1800
+tcp port=21, appl_name=junos-ftp, service type=1, alg id=1, timeout=1800
+tcp port=22, appl_name=junos-ssh, service type=22, alg id=0, timeout=1800
+tcp port=23, appl_name=junos-telnet, service type=10, alg id=0, timeout=28800
+tcp port=25, appl_name=junos-smtp, service type=7, alg id=0, timeout=1800
+tcp port=43, appl_name=junos-whois, service type=46, alg id=0, timeout=1800

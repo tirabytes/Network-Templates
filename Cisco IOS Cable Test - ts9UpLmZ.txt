@@ -1,0 +1,8 @@
+test cable-diagnostics tdr interface
+
+show cable-diagnostics tdr
+
+
+Notes:
+Pair C = PoE
+Pair D = Gigabit

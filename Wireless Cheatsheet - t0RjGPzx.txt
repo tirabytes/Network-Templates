@@ -1,0 +1,36 @@
+I am not really sure what you asking here, but My guess is your trying to get a grasp on what SNR and RSSI
+
+values are how they relate to clients, and how they relate to connectivity. If this is the case read on. otherwise well ingore this post..
+
+SNR (Signal-to-Noise Ratio) is a ratio based value that evaluates your signal based on the noise being seen. So let's look at the components of the SNR and they see how to determine it.  SNR is comprised of 2 values and is measured as a positive value between 0db and 120db and the closer it is to 120db the better: Signal Value and Noise Value typically these are expressed in decibels (db).
+
+     So we will look at the Signal (Also known as RSSI) first this value is measured in decibels from 0 (zero) to -120 (minus 120) now when looking at this value the closer to 0 (zero) the stronger the signal is which means it's better, typically voice networks require a -65db or better signal level while a data network needs -80db or better.  Normal range in a network would be -45db to -87db depending on power levels and design; since the Signal is affected by the APs transmit power & antenna aswell as the clients antenna (I'll explain this later.)
+
+     Now to the Noise side of this equation, noise is any signal (interference) that is not WiFi traffic such as cordless phones, microwaves, radar, etc. This value is measured in decibels from 0 (zero) to -120 (minus 120) now when looking at this value the closer to -120 (minus 120) is better because that means there is little to no interference. Typical environments range between -90db and -98db.
+
+     So to calculate your SNR value you add the Signal Value to the Noise Value and it generates (or should) a positive number that is expressed in decibels (db); for example lets say your Signal value is -55db and your Noise value is -95db.
+
+                    -55db + -95db = 40db this means you have an SNR of 40, my general rule of thumb is that any SNR above 20 is good.
+
+RSSI (Recieved Signal Strength Indicator) is a more common name for the Signal value; meaning it is the strength that the device is hearing a specific device or signal.RSSI is most common used in bridge links where on client laptops they just call it Signal.
+
+As for your question about the maximum and minimum supported by cisco access points that is hard to answer because the antennas attached to the access points also factor into it. In general the Cisco APs have the following maximum transmit powers: 802.11a/n is 40mw or 14dbm, 802.11b is 100mw or 20dbm, 802.11g is 50mw or 17dbm; although in some cases countries and specific channels can alter these limits.
+
+The last three things I will kind of explain is the EIRP, Free Space Path Loss, and Client side.
+
+EIRP (Effective Isotropic Radiated Power) is the actual amount of signal leaving the antenna and is a value measured in db that is based on 3 things:Transmit Power (db), Cable Loss (db), & Antenna Gain (dbi). To determine EIRP follow this equation: - Cable Loss + Antenna Gain = EIRP. For example we have a Cisco 1242AG access points running at full power with a 6dbi antenna on the 802.11a radio and a 2.5dbi antenna on the 802.11bg radio.
+
+802.11a EIRP = 17db (40mw) - 0db + 6dbi = 23db = 200mw of actual output power
+
+802.11bg EIRP = 20db (100mw) - 0db + 2.5dbi = 22.5db = 150mw (approx) of actual output power
+
+based on the example above in theory if you were to measure it right at the antenna you could get an RSSI of -23 or -22.5 respectively.
+
+Free Space Path Loss is a measure of how much signal power you lose over a given distance typically you lose about 0.020 db per foot in an outdoor or wide open office; doors, walls, glass, and etc. affect this. This is why as you walk away from an AP your signal gets weaker.
+
+All this relates to the client because it determines the signal the client recieves, also keep in mind that when looking at the client you have to account for it's antenna as well.  much like the EIRP...  So if a client card has a 2 dbi antenna (although they are typically either 0dbi or 2.2dbi) that boosts the incoming signal. as shown here assuming the actual raw RSSI signal being seen is -68db (not the value displayed in the client window).
+
+Actual RSSI + Antenna Gain = Displayed RSSI
+
+-68db + 2db = -66db
+- See more at: https://supportforums.cisco.com/discussion/10954591/snr-and-rssi-values#sthash.jLsOUKgs.dpuf

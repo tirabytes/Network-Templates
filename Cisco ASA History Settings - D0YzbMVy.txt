@@ -1,0 +1,6 @@
+!! Enable the performance monitoring
+asdm history enable
+
+!! View data
+show asdm history feature <all|blocks|cpu|failover|ids|interface|memory|perfmon|sas|tunnels|xlates>
+show asdm history view <10m|60m|12h|5d|all> feature <all|blocks|cpu|failover|ids|interface|memory|perfmon|sas|tunnels|xlates>

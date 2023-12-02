@@ -1,0 +1,29 @@
+## Interface check
+ifup eth0
+ifconfig
+
+## Update and Upgrade
+yum update && yum upgrade
+
+## Set hostname
+hostname xyz
+
+## Install Repos
+yum install epel-release
+
+## Install tools
+yum install links wget telnet nmap -y
+yum install selinux-policy -y
+ setenforce 0
+
+## Install Services
+yum install php mysql httpd perl gcc -y
+
+## Install Speedtest-cli
+yum install python-pip
+pip install --upgrade
+pip install speedtest-cli
+
+## Download and install management
+wget http://prdownloads.sourceforge.net/webadmin/webmin-1.740-1.noarch.rpm 
+ rpm -ivh web*

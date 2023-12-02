@@ -1,0 +1,18 @@
+###########################################################
+F5 BigIP v10/11
+File: bigip.license
+###########################################################
+
+get_dossier -b ABCDE-ABCDE-ABCDE-ABCDE-ABCDEFG
+
+### Copy and paste the dossier to https://activate.f5.com/license/dossier.jsp
+
+vi /config/bigip.license
+
+### Overwrite the existing license
+
+reloadlic
+
+
+############################################################
+Source: http://support.f5.com/kb/en-us/solutions/public/2000/500/sol2595.html

@@ -1,0 +1,18 @@
+## NAT
+!
+ip nat inside source list 101 interface Ethernet0 overload
+!
+access-list 101 remark NAT_SOURCE
+access-list 101 permit ip any any
+
+
+
+## ROUTE-MAP NAT
+!
+route-map NAT-OVERLOAD permit 1
+match ip address 101
+!
+access-list 101 remark NAT_SOURCE
+access-list 101 permit ip any any
+!
+ip nat inside source route-map NAT-OVERLOAD interface Ethernet0 overload

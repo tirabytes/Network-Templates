@@ -1,0 +1,31 @@
+interface GigabitEthernet1
+no ip address
+no shut
+
+interface GigabitEthernet1.10
+encapsulation dot1Q 10
+pppoe enable group global
+pppoe-client dial-pool-number 1
+
+interface Dialer0
+ description ## ISP INTERFACE ##
+ ip address negotiated
+ mtu 1492
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ encapsulation ppp
+ dialer pool 1
+ dialer-group 1
+ ppp pap sent-username x@y.com password xyxyxy
+ ppp ipcp dns request
+ ppp ipcp route default
+ no cdp enable
+ no shut
+!
+!
+int vlan1
+ ip tcp adjust-mss 1452
+
+
+dialer-list 1 protocol ip permit

@@ -1,0 +1,32 @@
+                                                                                       
+         88                          88                                                       
+  ,d     ""                          88                          ,d                           
+  88                                 88                          88                           
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,   
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                     
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+
+
+
+edit firewall filter ROUTER-FW
+
+set term MGT from source-address 1.1.1.1/32 except
+set term MGT from source-address 192.168.1.0/24 except
+set term MGT from source-address 0.0.0.0/0
+set term MGT from protocol tcp
+set term MGT from destination-port [ ssh telnet ]
+set term MGT then log discard
+
+set term OTHERS then accept
+
+top
+
+edit interface
+set lo0 unit 0 family inet filter input ROUTER-FW
+
+commit check
+commit confirmed 2

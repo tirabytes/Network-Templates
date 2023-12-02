@@ -1,0 +1,34 @@
+                                                                                       
+         88                          88                                                       
+  ,d     ""                          88                          ,d                           
+  88                                 88                          88                           
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,   
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                     
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+-----
+Platform: Cisco
+OS: IOS
+-----
+
+## Output DSL line information
+
+show dsl interface atm 0
+
+## Check PPP uptime
+
+show caller
+
+## Check PVC status
+
+show atm pvc
+
+## Debug (Note: not ideal for production site, use console as well)
+
+terminal monitor
+
+debug ppp negotiation
+debug atm events

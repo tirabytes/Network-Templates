@@ -1,0 +1,44 @@
+delete system services dhcp
+delete system services telnet
+delete system services web-management
+delete system name-server 208.67.222.222
+delete system name-server 208.67.220.220
+
+delete interfaces vlan unit 0 family inet address 192.168.1.1/24
+
+delete security nat
+
+delete security zones security-zone untrust interfaces fe-0/0/0.0 host-inbound-traffic system-services dhcp
+delete security zones security-zone untrust interfaces fe-0/0/0.0 host-inbound-traffic system-services tftp
+
+
+
+set system host-name [HOSTNAME]
+set system root-authentication plain-text
+
+set system name-server [DNS SERVER]
+
+set interfaces fe-0/0/0 unit 0 family inet address [WAN IP ADDRESS]
+
+set interfaces vlan unit 0 family inet address [LAN IP ADDRESS]
+
+set routing-options static route 0.0.0.0/0 next-hop [DEFAULT GATEWAY]
+
+set security zones security-zone trust host-inbound-traffic system-services all
+set security zones security-zone trust host-inbound-traffic protocols all
+set security zones security-zone trust interfaces vlan.0 host-inbound-traffic system-services all
+set security zones security-zone trust interfaces vlan.0 host-inbound-traffic protocols all
+
+set security zones security-zone untrust screen untrust-screen
+set security zones security-zone untrust interfaces fe-0/0/0.0 host-inbound-traffic system-services ssh
+set security zones security-zone untrust interfaces fe-0/0/0.0 host-inbound-traffic system-services ping
+
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match source-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match destination-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match application any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust then permit
+
+set security policies from-zone untrust to-zone trust policy untrust-to-trust match source-address any
+set security policies from-zone untrust to-zone trust policy untrust-to-trust match destination-address any
+set security policies from-zone untrust to-zone trust policy untrust-to-trust match application any
+set security policies from-zone untrust to-zone trust policy untrust-to-trust then permit

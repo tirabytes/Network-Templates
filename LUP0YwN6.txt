@@ -1,0 +1,51 @@
+Change management IP:
+
+tmsh
+
+modify sys glob hostname WA-SNRN1-F5-BIG1600-1.mydomain.com
+
+## Management Interface Port ##
+modify sys global-settings mgmt-dhcp disabled
+delete /sys management-ip 192.168.1.245/24
+create /sys management-ip 192.168.1.x/24
+create /sys management-route default network 0.0.0.0/0.0.0.0 gateway 192.168.201.1
+
+## Management on Network Interface Port ##
+create net vlan mgmt_vlan interfaces add {1.1}
+create net self 192.168.1.1/24 allow-service all vlan mgmt_vlan
+create net route default gw 192.168.1.254
+
+
+
+
+
+
+
+
+
+modify auth password root
+modify auth password admin
+
+
+
+
+how net interface all
+show sys license
+show sys version
+show running-config
+
+save sys config
+
+run /util ping 1.1.1.1
+
+run /util tcpdump -i 0.0
+
+run /util bash  (to drop into bash shell)
+tmstat
+bigtop
+
+
+
+How to Restore default-config with tmsh
+tmsh load /sys default-config
+tmsh save sys config

@@ -1,0 +1,41 @@
+                                                                                       
+         88                          88                                                      
+  ,d     ""                          88                          ,d                          
+  88                                 88                          88                          
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,  
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                    
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+
+Rancid Basic Installation
+
+CentOS 5.5 Final
+
+# rpm -Uhv http://apt.sw.be/redhat/el5/en/i386/rpmforge/RPMS/rpmforge-release-0.5.2-2.el5.rf.i386.rpm
+
+# yum install gcc gcc-c++ automake expect gmp gmp-devel gzip tar wget cvs rcs perl-IPC-Run bash perl-URI
+
+# groupadd netadm
+
+# useradd -g netadm -c "Networking Backups" -d /usr/local/rancid rancid
+
+# mkdir /usr/local/rancid/tar
+# cd /usr/local/rancid/tar
+
+# wget ftp://ftp.shrubbery.net/pub/rancid/rancid-2.3.6.tar.gz
+# tar -xvzf rancid-2.3.6.tar.gz
+
+# cd rancid-2.3.6
+
+# ./configure --prefix=/usr/local/rancid/
+
+# make install
+
+# cp cloginrc.sample /usr/local/rancid/.cloginrc
+
+# chmod 770 /usr/local/rancid/
+# chown -R rancid:netadm /usr/local/rancid/
+# chmod 0640 /usr/local/rancid/.cloginrc

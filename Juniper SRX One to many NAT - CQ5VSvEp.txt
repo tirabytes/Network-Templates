@@ -1,0 +1,38 @@
+                                                                                       
+         88                          88                                                       
+  ,d     ""                          88                          ,d                           
+  88                                 88                          88                           
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,   
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                     
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+
+## One to many destination NAT
+
+
+
+[edit security nat destination]
+set pool server-ftp-1 address 10.1.1.100 port 21 
+set pool server-web-1 address 10.1.1.101 port 80
+
+set rule-set rule-set-1 from zone untrust
+
+set rule-set rule-set-1 rule rule-1 match destination-address 1.1.1.1
+set rule-set rule-set-1 rule rule-1 match destination-port 21 
+set rule-set rule-set-1 rule rule-1 then destination-nat pool server-ftp-1
+
+set rule-set rule-set-1 rule rule-2 match destination-address 1.1.1.1
+set rule-set rule-set-1 rule rule-2 match destination-port 80 
+set rule-set rule-set-1 rule rule-2 then destination-nat pool server-web-1
+
+[edit security]
+set zones security-zone trust address-book address server-ftp-1 10.1.1.100/32 
+set zones security-zone trust address-book address server-web-1 10.1.1.101/32
+
+[edit security policies from-zone untrust to-zone trust]
+set policy server-access match source-address any destination-address [server-ftp-1 server-web-1] 
+application any 
+set policy server-access then permit

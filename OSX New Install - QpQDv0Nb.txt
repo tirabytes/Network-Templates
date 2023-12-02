@@ -1,0 +1,20 @@
+# Install BREW (http://brew.sh/)
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# Brew must-haves (http://brewformulas.org/)
+brew install caskroom/cask/brew-cask
+brew install archey
+brew install iftop
+brew install nmap
+brew install subnetcalc
+brew install iterm2
+
+
+# Cask must-haves (http://caskroom.io/search)
+brew cask install google-chrome
+brew cask install sublime-text
+brew cask install appcleaner
+brew cask install spotify
+brew cask install vlc
+brew cask install transmission

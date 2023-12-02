@@ -1,0 +1,111 @@
+################## ADSL
+!
+interface ATM0
+ dsl operating-mode auto
+ exit
+ no shut
+!
+interface ATM0.1 point-to-point
+ pvc 0/100
+  encapsulation aal5mux ppp dialer
+  dialer pool-member 1
+  !
+ exit
+!
+interface Dialer0
+ description ## ISP INTERFACE ##
+ ip address negotiated
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ encapsulation ppp
+ dialer pool 1
+ dialer-group 1
+ ppp pap sent-username x@y.com password xyxyxy
+ ppp ipcp dns request
+ ppp ipcp route default
+ no cdp enable
+ no shut
+!
+!
+dialer-list 1 protocol ip permit
+!
+
+################## VDSL
+!
+interface Ethernet0
+ no ip address
+!
+interface Ethernet0.10
+ encapsulation dot1Q 10
+ pppoe-client dial-pool-number 1
+!
+interface Dialer0
+ description ## ISP INTERFACE ##
+ mtu 1492
+ ip address negotiated
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ encapsulation ppp
+ dialer pool 1
+ dialer-group 1
+ ppp pap sent-username x@y.com password xyxyxy
+ ppp ipcp dns request
+ ppp ipcp route default
+ no cdp enable
+ no shut
+!
+dialer-list 1 protocol ip permit
+!
+
+
+################## EUBA
+!
+interface ATM0
+ no ip address
+ no atm ilmi-keepalive
+ no shut
+!
+interface ATM0.110 point-to-point
+ description EUBA 0/110 PVC to ISP
+ pvc euba 0/110
+  bridge-dot1q encap 10
+  tx-ring-limit 3
+  pppoe-client dial-pool-number 1
+!
+
+################## SHDSL (2Pair)
+!
+controller SHDSL 0
+dsl-group pairs  0
+!
+interface Ethernet0
+ description ## ISP INTERFACE ##
+ ip address [IP ADDRESS]
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ 
+ 
+################## SHDSL (4Pair)
+!
+controller SHDSL 0
+dsl-group pairs  0, 2 efm-bond
+  shdsl annex B-G
+!
+!
+interface Ethernet0
+ description ## ISP INTERFACE ##
+ ip address [IP ADDRESS]
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+
+
+################### Optimized MTU (only use when needed)
+
+1500 for default
+1478 for PPPoA/VC-MUX
+1470 for PPPoA/LLC
+1446 for PPPoE over ATM/LLC

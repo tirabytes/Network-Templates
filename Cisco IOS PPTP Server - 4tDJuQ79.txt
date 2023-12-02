@@ -1,0 +1,33 @@
+                                                                                       
+         88                          88                                                       
+  ,d     ""                          88                          ,d                           
+  88                                 88                          88                           
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,   
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                     
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+
+## PPTP Server
+vpdn enable 
+vpdn-group 1 
+accept-dialin
+protocol pptp 
+virtual-template 1 
+exit
+
+## Interface Virtual-Template1
+interface Virtual-Template1 
+ip unnumbered [LAN INTERFACE]
+peer default ip address pool PPTP-Pool
+no keepalive
+ppp encrypt mppe 128 
+ppp authentication ms-chap ms-chap-v2
+
+## DHCP Pool
+ip local pool PPTP-Pool 192.168.x.100 192.168.x.150
+
+## Username
+username "USERNAME" password "PASSWORD"

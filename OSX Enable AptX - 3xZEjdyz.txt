@@ -1,0 +1,11 @@
+apt-X is invalidated by default.
+Use Terminal.
+ 
+apt-X ON
+- - - - -
+$ defaults write com.apple.BluetoothAudioAgent "Enable AptX codec" -bool true
+- - - - -
+
+apt-X OFF
+- - - - -
+$ defaults delete com.apple.BluetoothAudioAgent "Enable AptX codec"

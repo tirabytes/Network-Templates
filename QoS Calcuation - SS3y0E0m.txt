@@ -1,0 +1,33 @@
+Layer 2 overheads
+Ethernet (LAN) = 18
+WAN (MLP or FRF) = 6+1
+WAN MLP over FRF = 14
+WAN (ATM) = 5
+
+Layer 3 overheads
+IP\UDP\RTP (20\8\12) = 40
+with CRTP = 2 (or 4 with checksum)
+
+Packet Sizes (Payload):
+G729 20 (PPS=50) Standard
+G711 160 (PPS=50) Standard
+G729 30 (PPS=33)
+G711 240 (PPS=33)
+G729 40 (PPS=25)
+G711 320 (PPS=25)
+
+Formula for Calculations:
+[(overheads + payload) *8 *PPS] / 1000
+
+Marking
+IP Routing CS6 48
+Voice EF 46
+Int Video Traffic AF41-43 34
+Video Streaming CS4 32
+Mission Critical AF31-33 25
+Call Sig CS3 24
+Transactional Data (Apps) AF21-23 18
+Network Mgmt CS2 16
+Bulk Data AF11-13 10
+Scavenger CS1 8
+Best Effort BE 0

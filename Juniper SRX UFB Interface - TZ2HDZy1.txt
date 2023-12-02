@@ -1,0 +1,43 @@
+                                                                                       
+         88                          88                                                       
+  ,d     ""                          88                          ,d                           
+  88                                 88                          88                           
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,   
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                     
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+
+## Set WAN interface
+delete interface fe-0/0/0
+set interface fe-0/0/0 vlan-tagging
+set interface fe-0/0/0 unit 10 encapsulation ppp-over-ether vlan-id 10
+
+
+## Interface pp0 P-t-P
+set interface pp0 unit 0 point-to-point
+
+## Interface pp0 PPP Configuration
+set interface pp0 unit 0 ppp-options pap 
+set interface pp0 unit 0 ppp-options local-name "USERNAME@REALM.COM" 
+set interface pp0 unit 0 ppp-options local-password "PASSWORD" 
+set interface pp0 unit 0 ppp-options passive
+
+## Interface pp0 PPPoE Configuration
+set interface pp0 unit 0 pppoe-options underlying-interface fe-0/0/0.10
+set interface pp0 unit 0 pppoe-options idle-timeout 0
+set interface pp0 unit 0 pppoe-options auto-reconnect 5
+set interface pp0 unit 0 pppoe-options client
+
+## pp0 IP Address
+set interface pp0 unit 0 family inet negotiate-address
+set interface pp0 unit 0 family inet mtu 1492
+set interface pp0 unit 0 family inet6
+
+## LAN MSS-TCP
+set security flow tcp-mss all-tcp mss 1452
+
+## Default Route
+set routing-options static route 0/0 next-hop pp0.0

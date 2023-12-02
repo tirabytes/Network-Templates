@@ -1,0 +1,17 @@
+# Shows a list of VPRN
+show service service-using
+
+
+## VPRN Commands
+# Interfaces
+show service id <VPRN #> interface
+# Routing Table
+show router <VPRN #> route-table 
+# Active PPPoE sessions
+show service id <VPRN #> ppp session 
+# Disconnect active sessions
+clear service id <VPRN #> ppp session user-name user@hostname.com
+
+### VPRN Complete configuration
+A:root# configure service vprn 100
+A:root>config>service>vprn# info

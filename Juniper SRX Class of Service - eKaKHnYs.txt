@@ -1,0 +1,139 @@
+                                                                                       
+         88                          88                                                       
+  ,d     ""                          88                          ,d                           
+  88                                 88                          88                           
+MM88MMM  88  8b,dPPYba,  ,adPPYYba,  88,dPPYba,   8b       d8  MM88MMM  ,adPPYba,  ,adPPYba,  
+  88     88  88P'   "Y8  ""     `Y8  88P'    "8a  `8b     d8'    88    a8P_____88  I8[    ""  
+  88     88  88          ,adPPPPP88  88       d8   `8b   d8'     88    8PP"""""""   `"Y8ba,   
+  88,    88  88          88,    ,88  88b,   ,a8"    `8b,d8'      88,   "8b,   ,aa  aa    ]8I  
+  "Y888  88  88          `"8bbdP"Y8  8Y"Ybbd8"'       Y88'       "Y888  `"Ybbd8"'  `"YbbdP"'  
+                                                      d8'                                     
+##################################################   d8'  ##### http://www.tirabytes.com/ ##
+-----
+Platform: Juniper
+OS: JunOS
+-----
+
+edit class-of-service
+
+
+set classifiers dscp dscp-classifier forwarding-class network-control loss-priority high code-points 111000
+set classifiers dscp dscp-classifier forwarding-class network-control loss-priority low code-points 110000
+
+set classifiers dscp dscp-classifier forwarding-class assured-forwarding loss-priority high code-points 100010
+set classifiers dscp dscp-classifier forwarding-class assured-forwarding loss-priority low code-points 011010
+
+set classifiers dscp dscp-classifier forwarding-class expedited-forwarding loss-priority high code-points 101110
+
+set classifiers dscp dscp-classifier forwarding-class best-effort loss-priority low code-points 000000
+
+
+set forwarding-classes queue 0 best-effort
+set forwarding-classes queue 1 expedited-forwarding
+set forwarding-classes queue 2 assured-forwarding
+set forwarding-classes queue 3 network-control
+
+
+set rewrite-rules dscp dscp-rewrite forwarding-class network-control loss-priority low code-point 110000
+set rewrite-rules dscp dscp-rewrite forwarding-class network-control loss-priority high code-point 111000
+
+set rewrite-rules dscp dscp-rewrite forwarding-class expedited-forwarding loss-priority high code-point 101110
+
+set rewrite-rules dscp dscp-rewrite forwarding-class assured-forwarding loss-priority high code-point 100010
+set rewrite-rules dscp dscp-rewrite forwarding-class assured-forwarding loss-priority low code-point 011010
+
+set rewrite-rules dscp dscp-rewrite forwarding-class best-effort loss-priority low code-point 000000
+
+
+set scheduler-maps scheduler-cos forwarding-class expedited-forwarding scheduler real-time-applications
+set scheduler-maps scheduler-cos forwarding-class best-effort scheduler other-traffic
+set scheduler-maps scheduler-cos forwarding-class assured-forwarding scheduler important-applications
+set scheduler-maps scheduler-cos forwarding-class network-control scheduler network-protocols
+
+set schedulers network-protocols transmit-rate percent 5
+set schedulers network-protocols buffer-size percent 5
+set schedulers network-protocols priority high
+
+set schedulers important-applications transmit-rate percent 20
+set schedulers important-applications buffer-size percent 20
+set schedulers important-applications priority high
+
+set schedulers real-time-applications transmit-rate percent 40
+set schedulers real-time-applications buffer-size percent 40
+set schedulers real-time-applications priority strict-high
+
+set schedulers other-traffic transmit-rate percent 35
+set schedulers other-traffic buffer-size percent 35
+set schedulers other-traffic priority low
+
+
+
+set interfaces fe-0/0/0 unit 0 scheduler-map hitech-cos
+set interfaces fe-0/0/0 unit 0 shaping-rate 1m
+set interfaces fe-0/0/0 unit 0 classifiers dscp dscp-classifier
+set interfaces fe-0/0/0 unit 0 rewrite-rules dscp dscp-rewrite
+
+set interfaces fe-0/0/2 unit 0 scheduler-map hitech-cos
+set interfaces fe-0/0/2 unit 0 classifiers dscp dscp-classifier
+set interfaces fe-0/0/2 unit 0 rewrite-rules dscp dscp-rewrite
+
+## You will need to configure 'per-unit'scheduler'
+
+top
+
+set interface fe0/0/0 per-unit-scheduler
+set interface fe0/0/2 per-unit-scheduler
+
+
+## If you're configuring sub-interfaces/VLAN you will need to create a "Virtual Channels".
+
+set virtual-channels vlan1000
+set virtual-channels vlan2000
+set virtual-channels default
+
+set virtual-channel-groups vcg-vlan1000 vlan1000 scheduler-map scheduler-cos
+set virtual-channel-groups vcg-vlan1000 vlan1000 shaping-rate 20m
+set virtual-channel-groups vcg-vlan1000 default scheduler-map scheduler-cos
+set virtual-channel-groups vcg-vlan1000 default default
+
+set virtual-channel-groups vcg-vlan2000 vlan2000 scheduler-map scheduler-cos
+set virtual-channel-groups vcg-vlan2000 vlan2000 shaping-rate 20m
+set virtual-channel-groups vcg-vlan2000 default scheduler-map scheduler-cos
+set virtual-channel-groups vcg-vlan2000 default default
+
+
+## Apply firewall filters to match specific traffic (VLAN/Virtual Channels)
+
+top
+edit firewall
+
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP from source-address 192.168.1.200/32
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP from destination-address 192.168.2.0/24
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP from destination-address 192.168.3.0/24
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP from destination-address 192.168.4.0/24
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP from destination-address 192.168.5.0/24
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP from destination-address dscp [ ef af31 ]
+
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP then count OUTBOUND-MPLS-VOIP 
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP then forwarding-class expedited-forwarding
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP then virtual-channel vlan1000
+set family inet filter OUTBOUND-MPLS term REMOTE-VOIP then accept
+
+set family inet filter OUTBOUND-MPLS term OTHERS then virtual-channel vlan1000
+set family inet filter OUTBOUND-MPLS term OTHERS then accept
+
+set family inet filter OUTBOUND-WWW term 2TALK from source-address 10.1.20.254/32
+set family inet filter OUTBOUND-WWW term 2TALK from source-address 10.1.10.254/32
+
+set family inet filter OUTBOUND-WWW term 2TALK from destination-address 1.1.1.2/32
+set family inet filter OUTBOUND-WWW term 2TALK from destination-address 1.1.1.1/32
+
+set family inet filter OUTBOUND-WWW term 2TALK from destination-port [ 5060 4569 ]
+
+set family inet filter OUTBOUND-WWW term 2TALK then count OUTBOUND-WWW-VOIP
+set family inet filter OUTBOUND-WWW term 2TALK then forwarding-class expedited-forwarding
+set family inet filter OUTBOUND-WWW term 2TALK then virtual-channel vlan2000
+set family inet filter OUTBOUND-WWW term 2TALK then accept
+
+set family inet filter OUTBOUND-WWW term OTHERS then virtual-channel vlan2000
+set family inet filter OUTBOUND-WWW term OTHERS then accept

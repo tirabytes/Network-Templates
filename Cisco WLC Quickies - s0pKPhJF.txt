@@ -1,0 +1,4 @@
+Cisco Wireless LAN Controller  Quickie
+
+Check Serial Numbers
+show inventory

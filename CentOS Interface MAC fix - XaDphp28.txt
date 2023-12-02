@@ -1,0 +1,18 @@
+vi /etc/udev/rules.d/70-persistent-net.rules
+
+# PCI device 0x15ad:0x07b0 (vmxnet3)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", 
+ATTR{address}=="00:50:56:ae:00:1a", 
+ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
+
+# PCI device 0x15ad:0x07b0 (vmxnet3)
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", 
+ATTR{address}=="00:50:56:ae:00:1b", 
+ATTR{type}=="1", KERNEL=="eth*", NAME="eth1"
+
+
+## Match MAC address in /etc/sysconfig/network-scripts/ifcfg-eth0
+
+start_udev
+
+service network restart

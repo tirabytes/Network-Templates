@@ -1,0 +1,17 @@
+IANA Port lookup:
+ http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
+
+IANA TLD domain lookup:
+ http://www.iana.org/domains/root/db
+
+MAC OUI lookup:
+ http://www.wireshark.org/tools/oui-lookup.html
+
+Cisco L7 Decrypt:
+ http://www.ibeast.com/content/tools/CiscoPassword/index.asp
+
+Global DNS Propagation:
+ https://www.whatsmydns.net/
+
+Kloth Services:
+ http://www.kloth.net/services/

@@ -1,0 +1,5 @@
+WiFi Password
+security find-generic-password -ga "SSID"
+
+Re-organize / Clean Launchpad
+defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock

@@ -1,0 +1,48 @@
+bridge 1 protocol ieee
+bridge 1 route ip
+bridge irb
+!
+interface GigabitEthernet0
+description -LAN Interface-
+no ip address
+ip flow ingress
+ip flow egress
+bridge-group 1
+!
+interface BVI1
+description -Bridged Interface (G0/Dot110)-
+ip address x.x.x.x x.x.x.x
+ip verify unicast reverse-path
+no ip redirects
+no ip unreachables
+no ip proxy-arp
+ip virtual-reassembly
+no ip route-cache cef
+ip tcp adjust-mss 1452
+!
+interface Dot11Radio0
+description -Wireless Interface-
+no ip address
+no ip route-cache cef
+no ip route-cache
+!
+encryption mode ciphers aes-ccm
+!
+ssid SSID
+!
+speed basic-1.0 basic-2.0 basic-5.5 basic-6.0 basic-9.0 basic-11.0 basic-12.0 basic-18.0 basic-24.0 basic-36.0 basic-48.0 basic-54.0
+station-role root
+no cdp enable
+bridge-group 1
+bridge-group 1 subscriber-loop-control
+bridge-group 1 spanning-disabled
+bridge-group 1 block-unknown-source
+no bridge-group 1 source-learning
+no bridge-group 1 unicast-flooding
+!
+dot11 ssid SSID
+max-associations 200
+authentication open
+authentication key-management wpa
+guest-mode
+wpa-psk ascii PASSWORD

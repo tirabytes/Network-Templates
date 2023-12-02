@@ -1,0 +1,17 @@
+EUBA
+
+class-map match-all EF
+  match dscp ef
+!
+policy-map EUBA
+  class EF
+    set cos-inner 6
+!
+interface ATM0.110 point-to-point
+  description EUBA 0/110 PVC to ISP
+  pvc euba 0/110
+    bridge-dot1q encap 10
+    service-policy output EUBA
+    pppoe-client dial-pool-number 1
+  exit-vc
+exit
